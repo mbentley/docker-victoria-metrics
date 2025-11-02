@@ -11,7 +11,7 @@ tag_manifest() {
 
   # get latest full version from GitHub releases
   echo -n "Getting full version for ${EXPECTED_TAG} from GitHub releases..."
-  VM_VERSION="$(echo "${VM_RELEASES}" | grep "^v${EXPECTED_TAG}\." | head -n 1)"
+  VM_VERSION="$(echo "${VM_RELEASES}" | grep "^${EXPECTED_TAG}\." | head -n 1)"
 
   # check to see if we received a victoriametrics version from github tags
   if [ -z "${VM_VERSION}" ]
@@ -101,5 +101,4 @@ VM_RELEASES="$(echo "${GITHUB_TAGS}" | jq -r '.[]|.name' | grep -v -- -cluster |
 . "$(command -v env_parallel.bash)"
 
 # run multiple scans in parallel
-#env_parallel --env tag_manifest --env VM_RELEASES --env LATEST_MAJOR_MINOR_TAG --halt soon,fail=1 -j 5 tag_manifest ::: "${EXPECTED_TAGS}"
-env_parallel --env tag_manifest --env VM_RELEASES --env LATEST_MAJOR_MINOR_TAG --halt soon,fail=1 -j 1 tag_manifest ::: "${EXPECTED_TAGS}"
+env_parallel --env tag_manifest --env VM_RELEASES --env LATEST_MAJOR_MINOR_TAG --halt soon,fail=1 -j 5 tag_manifest ::: "${EXPECTED_TAGS}"
