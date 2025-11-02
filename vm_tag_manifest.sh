@@ -34,10 +34,7 @@ tag_manifest() {
     exit 1
   fi
 
-  # trim the tag for checking
-  #TRIMMED_TAG="$(echo "${VM_VERSION}" | awk -F 'v' '{print $2}')"
-
-  # no trimming needed (keeping the above just in case)
+  # trim the tag for checking (no trimming needed for VM)
   TRIMMED_TAG="${VM_VERSION}"
 
   # check to see if we got a trimmed tag
@@ -102,7 +99,6 @@ tag_manifest() {
 GITHUB_TAGS="$(wget -q -O - "https://api.github.com/repos/VictoriaMetrics/VictoriaMetrics/tags?per_page=50")"
 
 # get the last five major.minor tags
-#EXPECTED_MAJOR_MINOR_TAGS="$(echo "${GITHUB_TAGS}" | jq -r '.[]|.name' | awk -F 'v' '{print $2}' | awk -F '.' '{print $1 "." $2}' | sort --version-sort -ru | grep -v -- -cluster | head -n 5)"
 EXPECTED_MAJOR_MINOR_TAGS="$(echo "${GITHUB_TAGS}" | jq -r '.[]|.name' | awk -F '.' '{print $1 "." $2}' | sort --version-sort -ru | grep -v -- -cluster | head -n 5)"
 
 # set expected major tags from the major.minor list
